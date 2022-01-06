@@ -6,7 +6,7 @@ const OUNavbar = () => (
     <Container>
       <Navbar.Brand>
         <img alt="NBA Logo" src={logo} width="50" height="50" />
-        Buckets 2021-2022 Over/Under Draft Progress Board
+        Buckets Over/Under Draft
       </Navbar.Brand>
     </Container>
   </Navbar>

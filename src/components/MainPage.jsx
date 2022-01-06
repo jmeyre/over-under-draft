@@ -82,7 +82,7 @@ const MainPage = () => {
 
   return standings.length ? (
     <Container>
-      <Row xs="2" lg="3" xl="4" className="g-4">
+      <Row xs="1" sm="2" lg="3" xl="4" className="g-4">
         {Object.entries(rowData).sort((a, b) => (b[1].totalScore - a[1].totalScore)).map(value => (
           <Col>
             <Card>

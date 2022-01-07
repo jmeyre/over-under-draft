@@ -1,9 +1,7 @@
-import dotenv from 'dotenv';
-import { picksConst } from "../constants/constants.js";
-import { getProjectedWins } from '../functions/utilities.js';
-import fetch from "node-fetch";
-
-dotenv.config();
+require('dotenv').config();
+const { picksConst } = require( "../constants/constants.js");
+const { getProjectedWins } = require('../functions/utilities.js');
+const fetch = require("node-fetch");
 
 const getStandings = async () => {
   console.warn('RAPID API CALL');
@@ -66,11 +64,11 @@ const callApi = async () => {
 
 let data;
 
-export const getData = () => {
+exports.getData = () => {
   return data;
 };
 
-export const apiCaller = () => {
+exports.apiCaller = () => {
   callApi().then((value) => data = value);
   const handle = setInterval(callApi, 3600000)
   return () => clearInterval(handle);

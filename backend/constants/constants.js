@@ -1,4 +1,4 @@
-export const picksConst = {
+exports.picksConst = {
   'Zeus': [
     {team: 'Washington Wizards', ou: 'over', line: 33.5},
     {team: 'San Antonio Spurs', ou: 'over', line: 28.5},

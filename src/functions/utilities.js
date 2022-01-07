@@ -1,9 +1,3 @@
-export const getProjectedWins = (wins, losses) => {
-  let gamesCount = wins + losses;
-  let winRate = wins / gamesCount;
-  return Math.round(winRate * 82);
-};
-
 export const getTeamAbbreviation = (name) => {
   if (name === 'Atlanta Hawks') return 'ATL'
   if (name === 'Brooklyn Nets') return 'BKN'

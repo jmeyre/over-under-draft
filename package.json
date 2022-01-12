@@ -4,8 +4,7 @@
   "description": "https://over-under2.herokuapp.com/",
   "main": "backend/index.js",
   "scripts": {
-    "start": "node backend/index.js",
-    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false cd client && npm install && npm run build"
+    "start": "node backend/index.js"
   },
   "engines": {
     "node": "16.13.0"

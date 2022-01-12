@@ -70,7 +70,7 @@ exports.getData = () => {
 
 exports.apiCaller = () => {
   callApi().then((value) => {
-    if (Object.entries(value)?.length) {
+    if (value && Object.entries(value)?.length) {
       data = value;
     }
   });

@@ -4,12 +4,12 @@ const { getProjectedWins } = require('../functions/utilities.js');
 const fetch = require("node-fetch");
 
 const getStandings = async () => {
-  console.warn('RAPID API CALL: ' + process.env.REACT_APP_RAPIDAPI_KEY);
+  console.warn('RAPID API CALL: ' + process.env.RAPID_API_KEY);
   const response = await fetch("https://api-basketball.p.rapidapi.com/standings?league=12&season=2021-2022", {
     "method": "GET",
     "headers": {
         "x-rapidapi-host": "api-basketball.p.rapidapi.com",
-        "x-rapidapi-key": process.env.REACT_APP_RAPIDAPI_KEY
+        "x-rapidapi-key": process.env.RAPID_API_KEY
     }
   });
   const body = await response.json();

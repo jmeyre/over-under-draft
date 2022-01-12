@@ -24,6 +24,7 @@ if (!isDev && cluster.isMaster) {
   const app = express();
 
   // Start recurring api call
+  console.log('apiCaller() CALL');
   apiCaller();
 
   // Priority serve any static files.

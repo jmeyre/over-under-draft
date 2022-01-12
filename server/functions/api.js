@@ -69,7 +69,11 @@ exports.getData = () => {
 };
 
 exports.apiCaller = () => {
-  callApi().then((value) => data = value);
-  const handle = setInterval(callApi, 3600000)
+  callApi().then((value) => {
+    if (Object.entries(value).length) {
+      data = value;
+    }
+  });
+  const handle = setInterval(callApi, 3600000);
   return () => clearInterval(handle);
 };

@@ -5,6 +5,7 @@ const fetch = require("node-fetch");
 
 const getStandings = async () => {
   console.warn('RAPID API CALL');
+  const timestamp = Date();
   const response = await fetch("https://api-basketball.p.rapidapi.com/standings?league=12&season=2021-2022", {
     "method": "GET",
     "headers": {
@@ -13,11 +14,11 @@ const getStandings = async () => {
     }
   });
   const body = await response.json();
-  return body;
+  return { body, timestamp };
 }
 
 const callApi = async () => {
-  const apiData = await getStandings();
+  const { body: apiData, timestamp } = await getStandings();
   if (apiData?.message) {
     console.warn(apiData.message);
     return;
@@ -59,19 +60,21 @@ const callApi = async () => {
     })
     card[element[0]].totalScore = totalScore;
   });
-  return card;
+  return { card, timestamp };
 };
 
 let data;
+let timestamp;
 
 exports.getData = () => {
-  return data;
+  return { data, timestamp };
 };
 
 exports.apiCaller = () => {
   callApi().then((value) => {
-    if (value && Object.entries(value)?.length) {
-      data = value;
+    if (value.card && Object.entries(value.card)?.length) {
+      data = value.card;
+      timestamp = value.timestamp;
     }
   });
   // 30 minutes

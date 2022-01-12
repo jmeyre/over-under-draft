@@ -4,18 +4,20 @@ import { getTeamAbbreviation, getBackgroundColor } from "../functions/utilities"
 
 const MainPage = () => {
   const [rowData, setRowData] = useState({});
+  const [timestamp, setTimestamp] = useState('');
 
   useEffect(() => {
     fetch("/api")
       .then((res) => res.json())
       .then((data) => {
-        console.log('row data', data);
-        setRowData(data.data);
+        setRowData(data.data.data);
+        setTimestamp(data.data.timestamp);
       });
   }, []);
 
   return (rowData && Object.entries(rowData).length) ? (
-    <Container>
+    <Container style={{ marginBottom: '24px' }}>
+      <p>Data accurate as of: {timestamp}</p>
       <Row xs="1" sm="2" lg="3" xl="4" className="g-4">
         {Object.entries(rowData).sort((a, b) => (b[1].totalScore - a[1].totalScore)).map(value => (
           <Col key={value[0]}>
@@ -49,6 +51,11 @@ const MainPage = () => {
           </Col>
         ))}
       </Row>
+      <footer className="page-footer font-small blue pt-4">
+        <div className="footer-copyright text-center">GitHub:&nbsp;
+          <a target="_blank" href="https://github.com/jmeyre/over-under-draft/">github.com/jmeyre/over-under-draft</a>
+        </div>
+      </footer>
     </Container>
   ) : (
     <>

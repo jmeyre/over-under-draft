@@ -11,6 +11,10 @@ const PORT = process.env.PORT || 5000;
 if (!isDev && cluster.isMaster) {
   console.error(`Node cluster master ${process.pid} is running`);
 
+  // Start recurring api call
+  console.log('apiCaller() CALL');
+  apiCaller();
+    
   // Fork workers.
   for (let i = 0; i < numCPUs; i++) {
     cluster.fork();
@@ -22,10 +26,6 @@ if (!isDev && cluster.isMaster) {
 
 } else {
   const app = express();
-
-  // Start recurring api call
-  console.log('apiCaller() CALL');
-  apiCaller();
 
   // Priority serve any static files.
   app.use(express.static(path.resolve(__dirname, '../react-ui/build')));

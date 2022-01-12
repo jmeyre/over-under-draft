@@ -70,6 +70,7 @@ exports.getData = () => {
 
 exports.apiCaller = () => {
   callApi().then((value) => {
+    console.log(value);
     if (value && Object.entries(value)?.length) {
       data = value;
     }

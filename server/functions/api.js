@@ -74,7 +74,7 @@ exports.apiCaller = () => {
       data = value;
     }
   });
-  // one hour
-  const handle = setInterval(callApi, 3600000);
+  // 30 minutes
+  const handle = setInterval(callApi, 1800000);
   return () => clearInterval(handle);
 };

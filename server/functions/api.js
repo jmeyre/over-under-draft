@@ -4,7 +4,7 @@ const { getProjectedWins } = require('../functions/utilities.js');
 const fetch = require("node-fetch");
 
 const getStandings = async () => {
-  console.warn('RAPID API CALL: ' + process.env.RAPID_API_KEY);
+  console.warn('RAPID API CALL');
   const response = await fetch("https://api-basketball.p.rapidapi.com/standings?league=12&season=2021-2022", {
     "method": "GET",
     "headers": {
@@ -70,7 +70,6 @@ exports.getData = () => {
 
 exports.apiCaller = () => {
   callApi().then((value) => {
-    console.log(value);
     if (value && Object.entries(value)?.length) {
       data = value;
     }

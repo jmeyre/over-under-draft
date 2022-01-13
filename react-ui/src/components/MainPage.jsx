@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Card, Col, Container, ListGroup, Row, Spinner } from "react-bootstrap";
-import { getTeamAbbreviation, getBackgroundColor } from "../functions/utilities";
+import { getTeamAbbreviation, getBackgroundColor, changeTimeZone } from "../functions/utilities";
 
 const MainPage = () => {
   const [rowData, setRowData] = useState({});
@@ -17,7 +17,7 @@ const MainPage = () => {
 
   return (rowData && Object.entries(rowData).length) ? (
     <Container style={{ marginBottom: '24px' }}>
-      <p>Data accurate as of: {timestamp}</p>
+      <p>Last refresh: {changeTimeZone(timestamp)}</p>
       <Row xs="1" sm="2" lg="3" xl="4" className="g-4">
         {Object.entries(rowData).sort((a, b) => (b[1].totalScore - a[1].totalScore)).map(value => (
           <Col key={value[0]}>

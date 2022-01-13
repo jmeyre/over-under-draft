@@ -43,3 +43,8 @@ export const getBackgroundColor = (score) => {
   if (score > -20) return colors[7]
   return colors[8];
 }
+
+export const changeTimeZone = (date) => {
+  var offset = -6;
+  return new Date( new Date(date).getTime() + offset * 3600 * 1000).toUTCString().replace( /GMT$/, "CST" )
+};

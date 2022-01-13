@@ -31,7 +31,7 @@ const MainPage = () => {
                   <ListGroup.Item key={value[0] + team.name + team.ou} style={{ backgroundColor: getBackgroundColor(team.score) }}>
                     <span style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                       <span style={{ display: 'flex', alignItems: 'center' }}>
-                        <img alt="Team Logo" src={team.logo} width="50" style={{ marginRight: '6px' }} />
+                        <img alt="Team Logo" src={team.logo} width="50" style={{ marginRight: '16px' }} />
                         <div>
                           <b>{getTeamAbbreviation(team.name)}</b> {team.ou} {team.line}
                           <br />

@@ -44,6 +44,7 @@ const callApi = async () => {
         name: team.team,
         ou: team.ou,
         line: team.line,
+        pos: team.pos,
         wins: standing.games.win.total,
         losses: standing.games.lose.total,
         score: team.ou === 'over' ? projWins - team.line : team.line - projWins

@@ -6,7 +6,7 @@ const fetch = require("node-fetch");
 const getStandings = async () => {
   console.warn('RAPID API CALL');
   const timestamp = Date();
-  const response = await fetch("https://api-basketball.p.rapidapi.com/standings?league=12&season=2021-2022", {
+  const response = await fetch("https://api-basketball.p.rapidapi.com/standings?league=12&season=2022-2023", {
     "method": "GET",
     "headers": {
         "x-rapidapi-host": "api-basketball.p.rapidapi.com",
@@ -31,7 +31,7 @@ const callApi = async () => {
     'Billy': {rows: [], totalScore: 0},
     'Amir': {rows: [], totalScore: 0},
     'Jesse': {rows: [], totalScore: 0},
-    'Martin': {rows: [], totalScore: 0},
+    'Marty': {rows: [], totalScore: 0},
     'Leftovers': {rows: [], totalScore: 0},
   };
   Object.entries(picksConst).forEach(element => {

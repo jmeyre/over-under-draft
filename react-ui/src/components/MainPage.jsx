@@ -65,13 +65,6 @@ const MainPage = () => {
                           <br />
                           <b>{team.ou}</b> {team.line}
                         </div>
-                        {/* <div>
-                          <b>{getTeamAbbreviation(team.name)} {team.ou}</b> {team.line}
-                          <br />
-                          {team.wins}-{team.losses}
-                          <br />
-                          Proj: {team.ou === 'over' ? `${team.line + team.score}-${82-(team.line + team.score)}` : `${team.line - team.score}-${82-(team.line - team.score)}`}
-                        </div> */}
                       </span>
                       <span style={{ display: 'flex', alignItems: 'center' }}>
                           <b>{team.score > 0 ? `+${team.score}` : team.score}</b>

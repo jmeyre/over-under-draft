@@ -79,7 +79,7 @@ const MainPage = () => {
       </Row>
       <footer className="page-footer font-small blue pt-4">
         <div className="footer-copyright text-center">GitHub:&nbsp;
-          <a target="_blank" href="https://github.com/jmeyre/over-under-draft/">github.com/jmeyre/over-under-draft</a>
+          <a target="_blank" rel="noreferrer" href="https://github.com/jmeyre/over-under-draft/">github.com/jmeyre/over-under-draft</a>
         </div>
       </footer>
     </Container>

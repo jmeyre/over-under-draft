@@ -13,14 +13,12 @@ const MainPage = () => {
   ];
 
   useEffect(() => {
-    setTimeout(() => {
-      fetch("/api")
-        .then((res) => res.json())
-        .then((data) => {
-          setRowData(data.data.data);
-          setTimestamp(data.data.timestamp);
-        });
-    }, 3000);
+    fetch("/api")
+      .then((res) => res.json())
+      .then((data) => {
+        setRowData(data.data.data);
+        setTimestamp(data.data.timestamp);
+      });
   }, []);
 
   return (rowData && Object.entries(rowData).length) ? (

@@ -1,3 +1,3 @@
-# App is Hosted on Heroku
+# App is Hosted on Vercel
 
-https://over-under2.herokuapp.com/
+https://over-under-draft.vercel.app/

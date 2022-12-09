@@ -1,5 +1,5 @@
 {
-  "name": "server",
+  "name": "api",
   "version": "1.0.0",
   "description": "over under draft",
   "main": "index.js",

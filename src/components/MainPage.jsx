@@ -12,13 +12,24 @@ const MainPage = () => {
     { name: 'Score', value: 'byScore' }
   ];
 
-  useEffect(() => {
-    fetch("/api")
+  useEffect(async () => {
+    await fetch("/api")
       .then((res) => res.json())
       .then((data) => {
         setRowData(data.data.data);
         setTimestamp(data.data.timestamp);
       });
+
+    if (!Object.entries(rowData).length) {
+      setTimeout(() => {
+        fetch("/api")
+          .then((res) => res.json())
+          .then((data) => {
+            setRowData(data.data.data);
+            setTimestamp(data.data.timestamp);
+          });
+      }, 3000);
+    }
   }, []);
 
   return (rowData && Object.entries(rowData).length) ? (

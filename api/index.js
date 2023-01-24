@@ -20,7 +20,8 @@ app.get('/api', async function (req, res) {
   // log user location
   const ipAddress = req.header('x-forwarded-for');
   var fetch_res = await fetch(`http://api.ipstack.com/${ipAddress}?access_key=${process.env.IPSTACK_API_KEY}`);
-  var fetch_data = await fetch_res.json()
+  var fetch_data = await fetch_res.json();
+  console.log(fetch_data);
   console.log('ip address: ' + ipAddress);
   console.log('city: ' + fetch_data.city);
   console.log('region: ' + fetch_data.region_name);

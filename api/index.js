@@ -20,7 +20,7 @@ apiCaller();
 // Priority serve any static files.
 app.use(express.static(path.resolve(__dirname, '../build')));
 
-app.get('/init', async () => {
+app.get('/init', async function (req, res) {
   // log user location
   const ip = req.header('x-forwarded-for');
   var fetch_res = await fetch(`http://api.ipstack.com/${ip}?access_key=${process.env.IPSTACK_API_KEY}`);

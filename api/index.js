@@ -20,6 +20,7 @@ app.get('/api', async function (req, res) {
   // log user location
   var fetch_res = await fetch(`http://api.ipstack.com/${req.ip}?access_key=${process.env.IPSTACK_API_KEY}`);
   var fetch_data = await fetch_res.json()
+  console.log('ip address: ' + req.ip);
   console.log('city: ' + fetch_data.city);
   console.log('region: ' + fetch_data.region_name);
   console.log('country: ' + fetch_data.country_name);

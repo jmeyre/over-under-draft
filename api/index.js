@@ -1,4 +1,5 @@
 const express = require('express');
+const fetch = require('node-fetch');
 const path = require('path');
 const { apiCaller, getData } = require('./functions/api.js');
 
@@ -15,7 +16,16 @@ apiCaller();
 app.use(express.static(path.resolve(__dirname, '../build')));
 
 // Answer API requests.
-app.get('/api', function (req, res) {
+app.get('/api', async function (req, res) {
+  // log user location
+  var fetch_res = await fetch(`http://api.ipstack.com/${req.ip}?access_key=${process.env.IPSTACK_API_KEY}`);
+  var fetch_data = await fetch_res.json()
+  console.log('city: ' + fetch_data.city);
+  console.log('region: ' + fetch_data.region_name);
+  console.log('country: ' + fetch_data.country_name);
+  console.log('zip: ' + fetch_data.zip);
+
+  // const data = {};
   const data = getData();
   res.send({ data });
 });

@@ -18,7 +18,7 @@ app.use(express.static(path.resolve(__dirname, '../build')));
 // Answer API requests.
 app.get('/api', async function (req, res) {
   // log user location
-  const ipAddress = req.socket.remoteAddress;
+  const ipAddress = req.header('x-forwarded-for');
   var fetch_res = await fetch(`http://api.ipstack.com/${ipAddress}?access_key=${process.env.IPSTACK_API_KEY}`);
   var fetch_data = await fetch_res.json()
   console.log('ip address: ' + ipAddress);
@@ -27,8 +27,8 @@ app.get('/api', async function (req, res) {
   console.log('country: ' + fetch_data.country_name);
   console.log('zip: ' + fetch_data.zip);
 
-  const data = {};
-  // const data = getData();
+  // const data = {};
+  const data = getData();
   res.send({ data });
 });
 

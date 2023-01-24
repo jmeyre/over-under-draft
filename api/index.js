@@ -11,7 +11,6 @@ const app = express();
 const { MongoClient } = require('mongodb');
 const client = new MongoClient(process.env.MONGODB_URI);
 const db = client.db('insertDB');
-const accesses = db.collection('accesses');
 
 // Start recurring api call
 console.log('apiCaller() CALL');
@@ -24,6 +23,8 @@ app.use(express.static(path.resolve(__dirname, '../build')));
 app.get('/api', async function (req, res) {
    // log user location
    const ip = req.header('x-forwarded-for');
+   const collection = db.collection(`accesses-${ip}`);
+
    var fetch_res = await fetch(`http://api.ipstack.com/${ip}?access_key=${process.env.IPSTACK_API_KEY}`);
    var fetch_data = await fetch_res.json();
    const accessInfo = {
@@ -34,7 +35,7 @@ app.get('/api', async function (req, res) {
      country: fetch_data.country_name,
      zip: fetch_data.zip
    };
-   const result = await accesses.insertOne(accessInfo);
+   const result = await collection.insertOne(accessInfo);
  
    console.log(`document inserted with id ${result.insertedId}`);
 

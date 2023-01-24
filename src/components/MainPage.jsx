@@ -13,8 +13,6 @@ const MainPage = () => {
   ];
 
   useEffect(async () => {
-    await fetch('/init');
-
     await fetch("/api")
       .then((res) => res.json())
       .then((data) => {

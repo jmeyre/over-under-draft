@@ -58,9 +58,18 @@ const MainPage = () => {
         {Object.entries(rowData).sort((a, b) => (b[1].totalScore - a[1].totalScore)).map(value => (
           <Col key={value[0]}>
             <Card>
-              <Card.Header><b>{value[0]}</b></Card.Header>
+              <Card.Header>
+                <b>{value[0]}</b>
+                {value[0] === 'Marty' &&
+                  <div>
+                    <img alt="Bud Light Platinum" src="https://images.squarespace-cdn.com/content/v1/5e30be0936425a3e18218456/1581026266491-FSKK0PRPFTGA1Q6655KH/Bud+Light+Platinum.png" width="150" />
+                    {/* <img alt="Bud Light Platinum" src="https://straubdistributing.com/wp-content/uploads/2015/06/BudLightPlatinum-1.png" width="150" /> */}
+                  </div>
+                }
+              </Card.Header>
               <Card.Body>
                 <Card.Title>{value[1].totalScore}</Card.Title>
+                
               </Card.Body>
               <ListGroup variant="flush" style={{ textAlign: 'left' }}>
                 {Object.values(value[1].rows).sort((a, b) => sortMode === 'byScore' ? b.score - a.score : 1).map(team => (

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { ButtonGroup, Card, Col, Container, ListGroup, Row, Spinner, ToggleButton } from "react-bootstrap";
-import { getTeamAbbreviation, getBackgroundColor, changeTimeZone } from "../functions/utilities";
+import { getBackgroundColor, changeTimeZone } from "../functions/utilities";
 
 const MainPage = () => {
   const [rowData, setRowData] = useState({});
@@ -70,7 +70,7 @@ const MainPage = () => {
                         {team.pos && <b style={{ marginRight: '16px' }}>{team.pos}</b>}
                         <img alt="Team Logo" src={team.logo} width="50" style={{ marginRight: '16px' }} />
                         <div>
-                          <span><b>{getTeamAbbreviation(team.name)}</b> <font size="2.5">({team.wins}-{team.losses})</font></span>
+                          <span><b>{team.name}</b> <font size="2.5">({team.wins}-{team.losses})</font></span>
                           <br />
                           Proj: {team.ou === 'over' ? `${team.line + team.score}-${82-(team.line + team.score)}` : `${team.line - team.score}-${82-(team.line - team.score)}`}
                           <br />

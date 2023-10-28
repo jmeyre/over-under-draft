@@ -1,12 +1,12 @@
 require('dotenv').config();
 const { picksConst } = require( "../constants/constants.js");
-const { getProjectedWins } = require('../functions/utilities.js');
+const { getProjectedWins, getTeamAbbreviation } = require('../functions/utilities.js');
 const fetch = require("node-fetch");
 
 const getStandings = async () => {
   console.warn('RAPID API CALL');
   const timestamp = Date();
-  const response = await fetch("https://api-basketball.p.rapidapi.com/standings?league=12&season=2022-2023", {
+  const response = await fetch("https://api-basketball.p.rapidapi.com/standings?league=12&season=2023-2024", {
     "method": "GET",
     "headers": {
         "x-rapidapi-host": "api-basketball.p.rapidapi.com",
@@ -37,7 +37,7 @@ const callApi = async () => {
   Object.entries(picksConst).forEach(element => {
     const drafterArray = [];
     element[1].forEach(team => {
-      const standing = fetchData.find((value) => team.team === value.team.name) ?? {};
+      const standing = fetchData.find((value) => team.team === getTeamAbbreviation(value.team.name)) ?? {};
       const projWins = getProjectedWins(standing.games.win.total, standing.games.lose.total);
       const row = {
         logo: standing.team.logo,

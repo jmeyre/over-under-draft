@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { ButtonGroup, Card, Col, Container, ListGroup, Row, Spinner, ToggleButton } from "react-bootstrap";
-import { getBackgroundColor, changeTimeZone } from "../functions/utilities";
+import { getBackgroundColor, changeTimeZone, getEspnAbbreviation } from "../functions/utilities";
 
 const MainPage = () => {
   const [rowData, setRowData] = useState({});
@@ -68,7 +68,7 @@ const MainPage = () => {
                     <span style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                       <span style={{ display: 'flex', alignItems: 'center' }}>
                         {team.pos && <b style={{ marginRight: '16px' }}>{team.pos}</b>}
-                        <img alt="Team Logo" src={team.logo} width="50" style={{ marginRight: '16px' }} />
+                        <img alt="Team Logo" src={`https://a.espncdn.com/combiner/i?img=/i/teamlogos/nba/500/${getEspnAbbreviation(team.name)}.png`} width="50" style={{ marginRight: '16px' }} />
                         <div>
                           <span><b>{team.name}</b> <font size="2.5">({team.wins}-{team.losses})</font></span>
                           <br />

@@ -39,7 +39,7 @@ exports.picksConst = {
     { team: "MIL", ou: "over", line: 53.5, pos: 7 },
     { team: "POR", ou: "over", line: 27.5, pos: 8 },
   ],
-  Zeus: [
+  'Ztanz Nation': [
     { team: "CHA", ou: "over", line: 31.5, pos: 1 },
     { team: "ATL", ou: "over", line: 42.5, pos: 2 },
     { team: "BOS", ou: "over", line: 54.5, pos: 3 },

@@ -25,7 +25,7 @@ const callApi = async () => {
   }
   const fetchData = apiData.response[0];
   let card = {
-    'Zeus': {rows: [], totalScore: 0},
+    'Ztanz Nation': {rows: [], totalScore: 0},
     'Chris': {rows: [], totalScore: 0},
     'Adam': {rows: [], totalScore: 0},
     'Billy': {rows: [], totalScore: 0},

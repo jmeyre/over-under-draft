@@ -23,9 +23,11 @@ export const getBackgroundColor = (score) => {
 
 export const changeTimeZone = (date) => {
   var offset = -5;
-  return new Date(new Date(date).getTime() + offset * 3600 * 1000)
-    .toUTCString()
-    .replace(/GMT$/, 'EST');
+  return (
+    new Date(date).toLocaleString('en-US', {
+      timeZone: 'America/New_York',
+    }) + ' ET'
+  );
 };
 
 export const getEspnAbbreviation = (teamName) => {

@@ -10,7 +10,7 @@ const getStandings = async () => {
   console.warn('RAPID API CALL');
   const timestamp = Date();
   const response = await fetch(
-    'https://api-basketball.p.rapidapi.com/standings?league=12&season=2024-2025',
+    'https://api-basketball.p.rapidapi.com/standings?league=12&season=2025-2026',
     {
       method: 'GET',
       headers: {
@@ -31,7 +31,7 @@ const callApi = async () => {
   }
   const fetchData = apiData.response[0];
   let card = {
-    'Ztanz Nation': { rows: [], totalScore: 0 },
+    Zeus: { rows: [], totalScore: 0 },
     Chris: { rows: [], totalScore: 0 },
     Adam: { rows: [], totalScore: 0 },
     Billy: { rows: [], totalScore: 0 },
@@ -91,6 +91,6 @@ exports.apiCaller = () => {
     }
   });
   // 30 minutes
-  const handle = setInterval(callApi, 1800000);
+  const handle = setInterval(callApi, 3600000);
   return () => clearInterval(handle);
 };

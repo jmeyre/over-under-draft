@@ -28,7 +28,7 @@ const MainPage = () => {
             setRowData(data.data.data);
             setTimestamp(data.data.timestamp);
           });
-      }, 3000);
+      }, 5000);
     }
   }, []);
 

@@ -6,33 +6,33 @@ const MainPage = () => {
   const [rowData, setRowData] = useState({});
   const [timestamp, setTimestamp] = useState('');
   const [projMode, setProjMode] = useState('');
+  const [loading, setLoading] = useState(true);
 
   const projRadios = [
     { name: 'BBall Ref', value: '' },
     { name: 'Simple Prorate', value: 'prorate' }
   ];
 
-  useEffect(async () => {
-    await fetch("/api")
-      .then((res) => res.json())
-      .then((data) => {
+  useEffect(() => {
+    let interval;
+    const fetchData = async () => {
+      const res = await fetch("/api");
+      const data = await res.json();
+      if (data.data.data && Object.entries(data.data.data).length) {
         setRowData(data.data.data);
         setTimestamp(data.data.timestamp);
-      });
-
-    if (!Object.entries(rowData).length) {
-      setTimeout(() => {
-        fetch("/api")
-          .then((res) => res.json())
-          .then((data) => {
-            setRowData(data.data.data);
-            setTimestamp(data.data.timestamp);
-          });
-      }, 5000);
-    }
+        setLoading(false);
+        if (interval) clearInterval(interval);
+      } else {
+        setLoading(true);
+      }
+    };
+    fetchData();
+    interval = setInterval(fetchData, 5000);
+    return () => clearInterval(interval);
   }, []);
 
-  return (rowData && Object.entries(rowData).length) ? (
+  return (!loading) ? (
     <Container style={{ marginBottom: '24px' }}>
       <p>Last refresh: {changeTimeZone(timestamp)}</p>
       <div style={{ textAlign: 'right', margin: '16px 0px' }}>

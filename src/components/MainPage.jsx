@@ -80,7 +80,7 @@ const MainPage = () => {
                         </div>
                       </span>
                       <span style={{ display: 'flex', alignItems: 'center' }}>
-                          <b>{team.score > 0 ? `+${team.score}` : team.score}</b>
+                          <b>{(projMode === '' ? team.projectedScore : team.proratedScore) > 0 ? `+${projMode === '' ? team.projectedScore : team.proratedScore}` : (projMode === '' ? team.projectedScore : team.proratedScore)}</b>
                       </span>
                     </span>
                   </ListGroup.Item>

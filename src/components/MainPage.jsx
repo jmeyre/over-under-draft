@@ -5,40 +5,40 @@ import { getBackgroundColor, changeTimeZone, getEspnAbbreviation } from "../func
 const MainPage = () => {
   const [rowData, setRowData] = useState({});
   const [timestamp, setTimestamp] = useState('');
-  const [sortMode, setSortMode] = useState('');
+  const [projMode, setProjMode] = useState('');
+  const [loading, setLoading] = useState(true);
 
-  const radios = [
-    { name: 'Draft Order', value: '' },
-    { name: 'Score', value: 'byScore' }
+  const projRadios = [
+    { name: 'BBall Ref', value: '' },
+    { name: 'Simple Prorate', value: 'prorate' }
   ];
 
-  useEffect(async () => {
-    await fetch("/api")
-      .then((res) => res.json())
-      .then((data) => {
+  useEffect(() => {
+    let interval;
+    const fetchData = async () => {
+      const res = await fetch("/api");
+      const data = await res.json();
+      if (data.data.data && Object.entries(data.data.data).length) {
         setRowData(data.data.data);
         setTimestamp(data.data.timestamp);
-      });
-
-    if (!Object.entries(rowData).length) {
-      setTimeout(() => {
-        fetch("/api")
-          .then((res) => res.json())
-          .then((data) => {
-            setRowData(data.data.data);
-            setTimestamp(data.data.timestamp);
-          });
-      }, 3000);
-    }
+        setLoading(false);
+        if (interval) clearInterval(interval);
+      } else {
+        setLoading(true);
+      }
+    };
+    fetchData();
+    interval = setInterval(fetchData, 5000);
+    return () => clearInterval(interval);
   }, []);
 
-  return (rowData && Object.entries(rowData).length) ? (
+  return (!loading) ? (
     <Container style={{ marginBottom: '24px' }}>
       <p>Last refresh: {changeTimeZone(timestamp)}</p>
       <div style={{ textAlign: 'right', margin: '16px 0px' }}>
-        <b style={{ marginRight: '12px' }}>Sort by:</b>
+        <b style={{ marginRight: '12px' }}>Projected by:</b>
         <ButtonGroup>
-          {radios.map((radio, idx) => (
+          {projRadios.map((radio, idx) => (
             <ToggleButton
               key={idx}
               id={`radio-${idx}`}
@@ -46,8 +46,8 @@ const MainPage = () => {
               variant="outline-primary"
               name="radio"
               value={radio.value}
-              checked={sortMode === radio.value}
-              onChange={(e) => setSortMode(e.currentTarget.value)}
+              checked={projMode === radio.value}
+              onChange={(e) => setProjMode(e.currentTarget.value)}
             >
               {radio.name}
             </ToggleButton>
@@ -55,19 +55,18 @@ const MainPage = () => {
         </ButtonGroup>
       </div>
       <Row xs="1" sm="2" lg="3" xl="4" className="g-4">
-        {Object.entries(rowData).sort((a, b) => (b[1].totalScore - a[1].totalScore)).map(value => (
+        {Object.entries(rowData).sort((a, b) => ((projMode === '' ? b[1].totalProjectedScore : b[1].totalProratedScore) - (projMode === '' ? a[1].totalProjectedScore : a[1].totalProratedScore))).map(value => (
           <Col key={value[0]}>
             <Card>
               <Card.Header>
                 <b>{value[0]}</b>
               </Card.Header>
               <Card.Body>
-                <Card.Title>{value[1].totalScore}</Card.Title>
-                
+                <Card.Title>{projMode === '' ? value[1].totalProjectedScore : value[1].totalProratedScore}</Card.Title>
               </Card.Body>
               <ListGroup variant="flush" style={{ textAlign: 'left' }}>
-                {Object.values(value[1].rows).sort((a, b) => sortMode === 'byScore' ? b.score - a.score : 1).map(team => (
-                  <ListGroup.Item key={value[0] + team.name + team.ou} style={{ backgroundColor: getBackgroundColor(team.score), padding: '16px' }}>
+                {Object.values(value[1].rows).map(team => (
+                  <ListGroup.Item key={value[0] + team.name + team.ou} style={{ backgroundColor: getBackgroundColor(projMode === '' ? team.projectedScore : team.proratedScore), padding: '16px' }}>
                     <span style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                       <span style={{ display: 'flex', alignItems: 'center' }}>
                         {team.pos && <b style={{ marginRight: '16px' }}>{team.pos}</b>}
@@ -75,7 +74,7 @@ const MainPage = () => {
                         <div>
                           <span><b>{team.name}</b> <font size="2.5">({team.wins}-{team.losses})</font></span>
                           <br />
-                          Proj: {team.ou === 'over' ? `${team.line + team.score}-${82-(team.line + team.score)}` : `${team.line - team.score}-${82-(team.line - team.score)}`}
+                          Proj: {team.ou === 'over' ? `${team.line + (projMode === '' ? team.projectedScore : team.proratedScore)}-${82-(team.line + (projMode === '' ? team.projectedScore : team.proratedScore))}` : `${team.line - (projMode === '' ? team.projectedScore : team.proratedScore)}-${82-(team.line - (projMode === '' ? team.projectedScore : team.proratedScore))}`}
                           <br />
                           <b>{team.ou}</b> {team.line}
                         </div>

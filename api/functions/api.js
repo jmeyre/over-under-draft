@@ -1,9 +1,10 @@
 require('dotenv').config();
 const { picksConst } = require('../constants/constants.js');
 const {
-  getProjectedWins,
+  getProratedWins,
   getTeamAbbreviation,
 } = require('../functions/utilities.js');
+const cheerio = require('cheerio');
 const fetch = require('node-fetch');
 
 const getStandings = async () => {
@@ -23,8 +24,46 @@ const getStandings = async () => {
   return { body, timestamp };
 };
 
+const getBballRefProjections = async () => {
+  const response = await fetch('https://www.basketball-reference.com/friv/playoff_prob.html');
+  const html = await response.text();
+  const $ = cheerio.load(html);
+  const results = [];
+
+  // Eastern Conference
+  $('#projected_standings_e tbody tr').each((_, row) => {
+    const team = $(row).find('td[data-stat="team_name"] a').text().trim();
+    const wins = $(row).find('td[data-stat="wins_avg"]').text().trim();
+    const losses = $(row).find('td[data-stat="losses_avg"]').text().trim();
+    if (team && wins && losses) {
+      results.push({
+        team: getTeamAbbreviation(team),
+        projWins: Math.round(Number(wins)),
+        projLosses: Math.round(Number(losses)),
+      });
+    }
+  });
+
+  // Western Conference
+  $('#projected_standings_w tbody tr').each((_, row) => {
+    const team = $(row).find('td[data-stat="team_name"] a').text().trim();
+    const wins = $(row).find('td[data-stat="wins_avg"]').text().trim();
+    const losses = $(row).find('td[data-stat="losses_avg"]').text().trim();
+    if (team && wins && losses) {
+      results.push({
+        team: getTeamAbbreviation(team),
+        projWins: Math.round(Number(wins)),
+        projLosses: Math.round(Number(losses)),
+      });
+    }
+  });
+
+  return results;
+};
+
 const callApi = async () => {
   const { body: apiData, timestamp } = await getStandings();
+  const bballRefProjections = await getBballRefProjections();
   if (apiData?.message) {
     console.warn(apiData.message);
     return;
@@ -47,7 +86,7 @@ const callApi = async () => {
         fetchData.find(
           (value) => team.team === getTeamAbbreviation(value.team.name)
         ) ?? {};
-      const projWins = getProjectedWins(
+      const proratedWins = getProratedWins(
         standing.games.win.total,
         standing.games.lose.total
       );
@@ -59,7 +98,10 @@ const callApi = async () => {
         pos: team.pos,
         wins: standing.games.win.total,
         losses: standing.games.lose.total,
-        score: team.ou === 'over' ? projWins - team.line : team.line - projWins,
+        projWins: bballRefProjections.find(p => p.team === team.team)?.projWins || 0,
+        projLosses: bballRefProjections.find(p => p.team === team.team)?.projLosses || 0,
+        proratedScore: team.ou === 'over' ? proratedWins - team.line : team.line - proratedWins,
+        projectedScore: team.ou === 'over' ? (bballRefProjections.find(p => p.team === team.team)?.projWins || 0) - team.line : team.line - (bballRefProjections.find(p => p.team === team.team)?.projWins || 0),
       };
       drafterArray.push(row);
     });
@@ -67,11 +109,14 @@ const callApi = async () => {
     card[element[0]].rows = drafterArray;
 
     // calculate and assign score
-    let totalScore = 0;
+    let totalProratedScore = 0;
+    let totalProjectedScore = 0;
     drafterArray.forEach((value) => {
-      totalScore += value.score;
+      totalProratedScore += value.proratedScore;
+      totalProjectedScore += value.projectedScore;
     });
-    card[element[0]].totalScore = totalScore;
+    card[element[0]].totalProratedScore = totalProratedScore;
+    card[element[0]].totalProjectedScore = totalProjectedScore;
   });
   return { card, timestamp };
 };

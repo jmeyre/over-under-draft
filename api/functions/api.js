@@ -11,7 +11,7 @@ const getStandings = async () => {
   console.warn('RAPID API CALL');
   const timestamp = Date();
   const response = await fetch(
-    'https://api-basketball.p.rapidapi.com/standings?league=12&season=2025-2026',
+    'https://api-basketball.p.rapidapi.com/standings?league=12&season=2026-2027',
     {
       method: 'GET',
       headers: {
